@@ -16,16 +16,10 @@ interface IFormFactory
 	/**
 	 * Create base Form
 	 *
-	 * @return \Flame\Application\UI\Form
+	 * @param string $class
+	 * @return \Nette\Application\UI\Form
 	 */
-	public function createForm();
-
-	/**
-	 * Create base Form with template
-	 *
-	 * @return \Flame\Application\UI\TemplateForm
-	 */
-	public function createTemplateForm();
+	public function createForm($class = 'Nette\Application\UI\Form');
 
 	/**
 	 * Set translate adapter

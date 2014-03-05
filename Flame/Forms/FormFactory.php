@@ -10,6 +10,7 @@ namespace Flame\Forms;
 use Flame\Application\UI\Form;
 use Flame\Application\UI\TemplateForm;
 use Nette\Forms\IFormRenderer;
+use Nette\InvalidArgumentException;
 use Nette\Localization\ITranslator;
 use Nette\Object;
 
@@ -62,23 +63,26 @@ class FormFactory extends Object implements IFormFactory
 	}
 
 	/**
-	 * Create base Form
-	 *
-	 * @return \Flame\Application\UI\Form
+	 * @param string $class
+	 * @return \Nette\Application\UI\Form
+	 * @throws \Nette\InvalidArgumentException
 	 */
-	public function createForm()
+	public function createForm($class = 'Nette\Application\UI\Form')
 	{
-		return $this->initForm(new Form);
-	}
+		if (!class_exists($class)) {
+			throw new InvalidArgumentException('Given class "' . $class . '" not found.');
+		}
 
-	/**
-	 * Create base Form with template
-	 *
-	 * @return \Flame\Application\UI\TemplateForm
-	 */
-	public function createTemplateForm()
-	{
-		return $this->initForm(new TemplateForm);
+		/** @var \Nette\Application\UI\Form $form */
+		$form = new $class;
+		$form->setTranslator($this->translator)
+			->setRenderer($this->renderer);
+
+		foreach ($this->processors as $processor) {
+			$processor->attach($form);
+		}
+
+		return $form;
 	}
 
 	/**
@@ -89,22 +93,6 @@ class FormFactory extends Object implements IFormFactory
 	public function getProcessors()
 	{
 		return $this->processors;
-	}
-
-	/**
-	 * @param Form $form
-	 * @return Form
-	 */
-	protected function initForm(Form &$form)
-	{
-		$form->setTranslator($this->translator)
-			->setRenderer($this->renderer);
-
-		foreach ($this->processors as $processor) {
-			$processor->attach($form);
-		}
-
-		return $form;
 	}
 
 	/**
