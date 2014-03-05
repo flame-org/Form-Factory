@@ -14,12 +14,22 @@ interface IFormFactory
 {
 
 	/**
+	 * @param string $class
+	 * @return $this
+	 */
+	public function setFormClass($class);
+
+	/**
+	 * @return string
+	 */
+	public function getFormClass();
+
+	/**
 	 * Create base Form
 	 *
-	 * @param string $class
 	 * @return \Nette\Application\UI\Form
 	 */
-	public function createForm($class = 'Nette\Application\UI\Form');
+	public function createForm();
 
 	/**
 	 * Set translate adapter

@@ -7,8 +7,7 @@
  */
 namespace Flame\Forms;
 
-use Flame\Application\UI\Form;
-use Flame\Application\UI\TemplateForm;
+use Nette\Application\UI\Form;
 use Nette\Forms\IFormRenderer;
 use Nette\InvalidArgumentException;
 use Nette\Localization\ITranslator;
@@ -16,6 +15,9 @@ use Nette\Object;
 
 class FormFactory extends Object implements IFormFactory
 {
+
+	/** @var  string */
+	private $class = 'Nette\Application\UI\Form';
 
 	/** @var \Nette\Localization\ITranslator */
 	private $translator;
@@ -25,6 +27,24 @@ class FormFactory extends Object implements IFormFactory
 
 	/** @var  array|IFormProcessor[] */
 	private $processors = array();
+
+	/**
+	 * @param string $class
+	 * @return $this
+	 */
+	public function setFormClass($class)
+	{
+		$this->class = (string) $class;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFormClass()
+	{
+		return $this->class;
+	}
 
 	/**
 	 * Set translate adapter
@@ -63,18 +83,22 @@ class FormFactory extends Object implements IFormFactory
 	}
 
 	/**
-	 * @param string $class
 	 * @return \Nette\Application\UI\Form
 	 * @throws \Nette\InvalidArgumentException
 	 */
-	public function createForm($class = 'Nette\Application\UI\Form')
+	public function createForm()
 	{
-		if (!class_exists($class)) {
-			throw new InvalidArgumentException('Given class "' . $class . '" not found.');
+		if (!class_exists($this->class)) {
+			throw new InvalidArgumentException('Given class "' . $this->class . '" not found.');
 		}
 
 		/** @var \Nette\Application\UI\Form $form */
-		$form = new $class;
+		$form = new $this->class;
+
+		if (!$form instanceof Form) {
+			throw new InvalidArgumentException('Class "' . $this->class . '" is not instance of Nette\Application\UI\Form.');
+		}
+
 		$form->setTranslator($this->translator)
 			->setRenderer($this->renderer);
 
