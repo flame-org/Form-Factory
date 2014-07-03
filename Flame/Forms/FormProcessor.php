@@ -31,8 +31,9 @@ abstract class FormProcessor extends Object implements IFormProcessor
 
 	/**
 	 * @param Form $form
+	 * @param array|\Nette\Utils\ArrayHash|null $values
 	 */
-	public function success(Form $form) {}
+	public function success(Form $form, $values = null) {}
 
 	/**
 	 * @param Form $form
