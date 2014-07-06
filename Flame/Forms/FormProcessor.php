@@ -7,7 +7,6 @@
  */
 namespace Flame\Forms;
 
-use Flame\Forms\IFormProcessor;
 use Nette\Application\UI\Form;
 use Nette\Object;
 
@@ -31,9 +30,8 @@ abstract class FormProcessor extends Object implements IFormProcessor
 
 	/**
 	 * @param Form $form
-	 * @param array|\Nette\Utils\ArrayHash|null $values
 	 */
-	public function success(Form $form, $values = null) {}
+	public function success(Form $form) {}
 
 	/**
 	 * @param Form $form
