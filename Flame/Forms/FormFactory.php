@@ -139,4 +139,9 @@ class FormFactory extends Object implements IFormFactory
 
 		return $this;
 	}
+
+	public function __clone()
+	{
+		$this->processors = [];
+	}
 }
