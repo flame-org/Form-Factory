@@ -8,7 +8,7 @@
 
 namespace Flame\Forms;
 
-use Nette\Application\UI\Form;
+use Nette\Forms\Form;
 
 interface IFormProcessor
 {
