@@ -19,7 +19,7 @@ abstract class FormProcessor extends Object implements IFormProcessor
 	 * @param Form $form
 	 * @return $this
 	 */
-	public function attach(Form $form)
+	public function attach(\Nette\Forms\Form $form)
 	{
 		$form->onSubmit[] = $this->submit;
 		$form->onSuccess[] = $this->success;
